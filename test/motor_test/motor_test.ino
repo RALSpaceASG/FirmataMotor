@@ -97,6 +97,27 @@ test(handleBrakeMotorMessage)
   assertEqual(Firmata.getPinState(pin2), 255);
 }
 
+test(handlebrakeManyMotorMessage)
+{
+  FirmataMotor motor;
+  byte motor1 = 1, pin1 = 4, pin2 = 9;
+  byte motor2 = 2, pin3 = 7, pin4 = 13;
+
+  motor.attachMotor(motor1, pin1, pin2);
+  motor.attachMotor(motor2, pin3, pin4);
+
+  byte message[]={MOTOR_BRAKE, motor1, motor2};
+  motor.handleSysex(MOTOR_DATA, 3, message);
+
+  assertEqual(Firmata.getPinState(pin1), 255);
+  assertEqual(Firmata.getPinState(pin2), 255);
+  assertEqual(Firmata.getPinState(pin3), 255);
+  assertEqual(Firmata.getPinState(pin4), 255);
+
+  motor.detachMotor(motor1);
+  motor.detachMotor(motor2);
+}
+
 test(setSpeed)
 {
   FirmataMotor motor;
