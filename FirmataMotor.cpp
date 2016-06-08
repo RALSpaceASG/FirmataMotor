@@ -145,9 +145,9 @@ boolean FirmataMotor::handleSysex(byte command, byte argc, byte* argv)
 
       case MOTOR_SPEED:
       case MOTOR_SPEEDS:
-        for (p = argv + 1; p += 2; (p - argv) < argc - 1)
+        for (p = argv + 1; (p - argv) < argc - 1; p += 2)
         {
-          motorNum = p[0] & 0x6F;
+          motorNum = p[0] & 0x3F;
           direction = p[0] >> 6;
           speed = p[1];
 

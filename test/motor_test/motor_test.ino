@@ -91,8 +91,55 @@ test(handleBrakeMotorMessage)
   motor.attachMotor(motorNum, pin1, pin2);
 
   byte message[]={MOTOR_BRAKE, motorNum};
-  motor.handleSysex(MOTOR_DATA, 3, message);
+  motor.handleSysex(MOTOR_DATA, 2, message);
 
+  assertEqual(Firmata.getPinState(pin1), 255);
+  assertEqual(Firmata.getPinState(pin2), 255);
+}
+
+test(setSpeed)
+{
+  FirmataMotor motor;
+  byte motorNum = 0, pin1 = 7, pin2 = 13;
+  motor.attachMotor(motorNum, pin1, pin2);
+
+  // forward
+  motor.setSpeed(motorNum, 0, 32);
+  assertEqual(Firmata.getPinState(pin1), 32 << 1);
+  assertEqual(Firmata.getPinState(pin2), 0);
+
+  // coast
+  motor.setSpeed(motorNum, 0, 0);
+  assertEqual(Firmata.getPinState(pin1), 0);
+  assertEqual(Firmata.getPinState(pin2), 0);
+
+  // reverse
+  motor.setSpeed(motorNum, 1, 32);
+  assertEqual(Firmata.getPinState(pin1), 0);
+  assertEqual(Firmata.getPinState(pin2), 32 << 1);
+
+  // brake
+  motor.brake(motorNum);
+  assertEqual(Firmata.getPinState(pin1), 255);
+  assertEqual(Firmata.getPinState(pin2), 255);
+}
+
+test(handleSetSpeedMessage)
+{
+
+  FirmataMotor motor;
+  byte motorNum = 0, pin1 = 7, pin2 = 13;
+  motor.attachMotor(motorNum, pin1, pin2);
+
+  // forward
+  byte fMessage[]={MOTOR_SPEED, (0 << 6) | motorNum, 32};
+  motor.handleSysex(MOTOR_DATA, 3, fMessage);
+  assertEqual(Firmata.getPinState(pin1), 32 << 1);
+  assertEqual(Firmata.getPinState(pin2), 0);
+
+  // brake
+  byte bMessage[]={MOTOR_BRAKE, motorNum};
+  motor.handleSysex(MOTOR_DATA, 2, bMessage);
   assertEqual(Firmata.getPinState(pin1), 255);
   assertEqual(Firmata.getPinState(pin2), 255);
 }
