@@ -48,7 +48,7 @@ void FirmataMotor::detachMotor(byte motorNum)
 {
   if (isAttached(motorNum))
   {
-    _setPins(motors, 0, 0);
+    _setPins(motorNum, 0, 0);
 
     SoftPWMEnd(motors[motorNum].pinA);
     SoftPWMEnd(motors[motorNum].pinB);
