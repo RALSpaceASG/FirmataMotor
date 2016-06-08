@@ -133,6 +133,12 @@ boolean FirmataMotor::handleSysex(byte command, byte argc, byte* argv)
         return true;
         break;
 
+      case MOTOR_DETACH:
+        motorNum = argv[1];
+        detachMotor(motorNum);
+        return true;
+        break;
+
       case MOTOR_SPEED:
       case MOTOR_SPEEDS:
         for (p = argv + 1; p += 2; (p - argv) < argc - 1)
