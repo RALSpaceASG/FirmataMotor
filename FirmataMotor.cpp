@@ -99,7 +99,8 @@ void FirmataMotor::setSpeed(byte motorNum, byte direction, byte speed)
     if (direction)
     {
       _setPins(motorNum, speed << 1, 0);
-    } else {
+    } else
+    {
       _setPins(motorNum, 0, speed << 1);
     }
   }
