@@ -41,7 +41,7 @@ void FirmataMotor::attachMotor(byte motorNum, byte pinB, byte pinA)
   motors[motorNum].pinA = pinA;
   motors[motorNum].pinB = pinB;
 
-  _setPins(motors, 0, 0);
+  _setPins(motorNum, 0, 0);
 }
 
 void FirmataMotor::detachMotor(byte motorNum)

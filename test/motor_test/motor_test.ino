@@ -41,7 +41,6 @@ test(requiredMemoryPerInstance)
 
 test(handleAttachMotorMessage)
 {
-  assertTestPass(attachMotor);
   FirmataMotor motor;
   byte motorNum = 0, pin1 = 7, pin2 = 13;
 
@@ -64,7 +63,6 @@ test(detachMotor)
 
 test(handeDetachMotorMessage)
 {
-
   FirmataMotor motor;
   byte motorNum = 0, pin1 = 7, pin2 = 13;
   motor.attachMotor(motorNum, pin1, pin2);
@@ -72,6 +70,41 @@ test(handeDetachMotorMessage)
   byte message[]={MOTOR_DETACH, motorNum};
   motor.handleSysex(MOTOR_DATA, 2, message);
   assertFalse(motor.isMotorAttached(motorNum));
+}
+
+test(brake)
+{
+  FirmataMotor motor;
+  byte motorNum = 0, pin1 = 7, pin2 = 13;
+  motor.attachMotor(motorNum, pin1, pin2);
+
+  motor.brake(motorNum);
+
+  assertEqual(Firmata.getPinState(pin1), 255);
+  assertEqual(Firmata.getPinState(pin2), 255);
+}
+
+test(handleBrakeMotorMessage)
+{
+  FirmataMotor motor;
+  byte motorNum = 0, pin1 = 7, pin2 = 13;
+  motor.attachMotor(motorNum, pin1, pin2);
+
+  byte message[]={MOTOR_BRAKE, motorNum};
+  motor.handleSysex(MOTOR_DATA, 3, message);
+
+  assertEqual(Firmata.getPinState(pin1), 255);
+  assertEqual(Firmata.getPinState(pin2), 255);
+}
+
+test(startZero)
+{
+  FirmataMotor motor;
+  byte motorNum = 0, pin1 = 7, pin2 = 13;
+  motor.attachMotor(motorNum, pin1, pin2);
+
+  assertEqual(Firmata.getPinState(pin1), 0);
+  assertEqual(Firmata.getPinState(pin2), 0);
 }
 
 void loop()
