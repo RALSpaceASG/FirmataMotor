@@ -1,6 +1,5 @@
 #include <ConfigurableFirmata.h>
 #include <AnalogOutputFirmata.h>
-#include <SoftPWM.h>
 #include "FirmataMotor.h"
 
 struct Motor {
@@ -19,13 +18,19 @@ FirmataMotor::FirmataMotor()
     motors[i].pinA = -1;
     motors[i].pinB = -1;
   }
-
-  SoftPWMBegin();
 }
 
 boolean FirmataMotor::isMotorAttached(byte motorNum)
 {
   return isAttached(motorNum);
+}
+
+void FirmataMotor::_setPins(byte motorNum, byte valueA, byte valueB)
+{
+  analogWrite(motors[motorNum].pinA, valueA);
+  analogWrite(motors[motorNum].pinB, valueB);
+  Firmata.setPinState(motors[motorNum].pinA, valueA);
+  Firmata.setPinState(motors[motorNum].pinB, valueB);
 }
 
 void FirmataMotor::attachMotor(byte motorNum, byte pinB, byte pinA)
@@ -50,9 +55,6 @@ void FirmataMotor::detachMotor(byte motorNum)
   {
     _setPins(motorNum, 0, 0);
 
-    SoftPWMEnd(motors[motorNum].pinA);
-    SoftPWMEnd(motors[motorNum].pinB);
-
     motors[motorNum].pinA = -1;
     motors[motorNum].pinB = -1;
   }
@@ -64,32 +66,6 @@ void FirmataMotor::reset()
   {
     detachMotor(motorNum);
   }
-}
-
-boolean FirmataMotor::handlePinMode(byte pin, int mode)
-{
-  if (mode == PIN_MODE_MOTOR)
-  {
-    return true;
-  }
-  return false;
-}
-
-void FirmataMotor::handleCapability(byte pin)
-{
-  if (pin && pin < MAX_MOTORS)
-  {
-    Firmata.write(PIN_MODE_MOTOR);
-    Firmata.write(7); // 7 bits used for speed
-  }
-}
-
-void FirmataMotor::_setPins(byte motorNum, byte valueA, byte valueB)
-{
-  SoftPWMSet(motors[motorNum].pinA, valueA);
-  SoftPWMSet(motors[motorNum].pinB, valueB);
-  Firmata.setPinState(motors[motorNum].pinA, valueA);
-  Firmata.setPinState(motors[motorNum].pinB, valueB);
 }
 
 void FirmataMotor::setSpeed(byte motorNum, byte direction, byte speed)
@@ -167,4 +143,22 @@ boolean FirmataMotor::handleSysex(byte command, byte argc, byte* argv)
     }
   }
   return false;
+}
+
+boolean FirmataMotor::handlePinMode(byte pin, int mode)
+{
+  if (mode == PIN_MODE_MOTOR)
+  {
+    return true;
+  }
+  return false;
+}
+
+void FirmataMotor::handleCapability(byte pin)
+{
+  if (pin && pin < MAX_MOTORS)
+  {
+    Firmata.write(PIN_MODE_MOTOR);
+    Firmata.write(7); // 7 bits used for speed
+  }
 }
