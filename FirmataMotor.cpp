@@ -156,7 +156,7 @@ boolean FirmataMotor::handlePinMode(byte pin, int mode)
 
 void FirmataMotor::handleCapability(byte pin)
 {
-  if (pin && pin < MAX_MOTORS)
+  if (IS_PIN_PWM(pin))
   {
     Firmata.write(PIN_MODE_MOTOR);
     Firmata.write(7); // 7 bits used for speed
