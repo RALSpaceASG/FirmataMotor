@@ -26,9 +26,9 @@ public:
   FirmataMotor();
 
   // FirmataFeature - needs to be implemented
+  boolean handleSysex(byte command, byte argc, byte *argv);
   boolean handlePinMode(byte pin, int mode);
   void handleCapability(byte pin);
-  boolean handleSysex(byte command, byte argc, byte *argv);
   void reset();
 
   boolean isMotorAttached(byte motorNum);
