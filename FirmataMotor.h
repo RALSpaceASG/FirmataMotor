@@ -31,6 +31,7 @@ public:
   boolean handleSysex(byte command, byte argc, byte *argv);
   void reset();
 
+  boolean isMotorAttached(byte motorNum);
   void attachMotor(byte motorNum, byte phasePin, byte pwmPin);
   void detachMotor(byte motorNum);
   void setSpeed(byte motorNum, byte direction, byte speed);

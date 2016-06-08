@@ -23,6 +23,11 @@ FirmataMotor::FirmataMotor()
   SoftPWMBegin();
 }
 
+boolean FirmataMotor::isMotorAttached(byte motorNum)
+{
+  return isAttached(motorNum);
+}
+
 void FirmataMotor::attachMotor(byte motorNum, byte pinB, byte pinA)
 {
   if (isAttached(motorNum))
