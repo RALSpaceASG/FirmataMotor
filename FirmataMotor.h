@@ -17,7 +17,8 @@
 #define MOTOR_ATTACH     (0x00)
 #define MOTOR_SPEED      (0x01)
 #define MOTOR_SPEEDS     (0x02)
-#define MOTOR_DETACH     (0x03)
+#define MOTOR_BRAKE      (0x03)
+#define MOTOR_DETACH     (0x05)
 
 class FirmataMotor:public FirmataFeature
 {
@@ -34,6 +35,6 @@ public:
   void detachMotor(byte motorNum);
   void setSpeed(byte motorNum, byte direction, byte speed);
   void brake(byte motorNum);
-}
+};
 
 #endif

@@ -6,7 +6,7 @@
 struct Motor {
   int8_t pinA;
   int8_t pinB;
-}
+};
 
 static Motor motors[MAX_MOTORS];
 
@@ -44,20 +44,20 @@ void FirmataMotor::detachMotor(byte motorNum)
 {
   if (isAttached(motorNum))
   {
-    SoftPWMSet(pinA, 0);
-    SoftPWMSet(pinB, 0);
+    SoftPWMSet(motors[motorNum].pinA, 0);
+    SoftPWMSet(motors[motorNum].pinB, 0);
 
-    SoftPWMEnd(pinA, 0);
-    SoftPWMEnd(pinB, 0);
+    SoftPWMEnd(motors[motorNum].pinA);
+    SoftPWMEnd(motors[motorNum].pinB);
 
-    motors[i].pwmPin = -1;
-    motors[i].phasePin = -1;
+    motors[motorNum].pinA = -1;
+    motors[motorNum].pinB = -1;
   }
 }
 
 void FirmataMotor::reset()
 {
-  for (byte motorNum = 0; motorNum < MAX_MOTORS; motor++)
+  for (byte motorNum = 0; motorNum < MAX_MOTORS; motorNum++)
   {
     detachMotor(motorNum);
   }
@@ -105,7 +105,7 @@ void FirmataMotor::brake(byte motorNum)
   }
 }
 
-void FirmataMotor::handleSysex(byte command, byte argc, byte* argv)
+boolean FirmataMotor::handleSysex(byte command, byte argc, byte* argv)
 {
   if (command == MOTOR_DATA)
   {

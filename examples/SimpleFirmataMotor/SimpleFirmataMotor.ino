@@ -7,7 +7,7 @@ FirmataMotor motor;
 
 void systemResetCallback()
 {
-  firmataExt.reset()
+  firmataExt.reset();
 }
 
 void setup()
