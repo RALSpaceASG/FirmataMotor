@@ -36,6 +36,9 @@ public:
   void detachMotor(byte motorNum);
   void setSpeed(byte motorNum, byte direction, byte speed);
   void brake(byte motorNum);
+
+private:
+  void _setPins(byte motorNum, byte valueA, byte valueB);
 };
 
 #endif

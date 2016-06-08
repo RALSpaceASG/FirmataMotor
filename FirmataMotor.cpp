@@ -38,19 +38,17 @@ void FirmataMotor::attachMotor(byte motorNum, byte pinB, byte pinA)
   Firmata.setPinMode(pinA, PIN_MODE_MOTOR);
   Firmata.setPinMode(pinB, PIN_MODE_MOTOR);
 
-  SoftPWMSet(pinA, 0);
-  SoftPWMSet(pinB, 0);
-
   motors[motorNum].pinA = pinA;
   motors[motorNum].pinB = pinB;
+
+  _setPins(motors, 0, 0);
 }
 
 void FirmataMotor::detachMotor(byte motorNum)
 {
   if (isAttached(motorNum))
   {
-    SoftPWMSet(motors[motorNum].pinA, 0);
-    SoftPWMSet(motors[motorNum].pinB, 0);
+    _setPins(motors, 0, 0);
 
     SoftPWMEnd(motors[motorNum].pinA);
     SoftPWMEnd(motors[motorNum].pinB);
@@ -86,17 +84,23 @@ void FirmataMotor::handleCapability(byte pin)
   }
 }
 
+void FirmataMotor::_setPins(byte motorNum, byte valueA, byte valueB)
+{
+  SoftPWMSet(motors[motorNum].pinA, valueA);
+  SoftPWMSet(motors[motorNum].pinB, valueB);
+  Firmata.setPinState(motors[motorNum].pinA, valueA);
+  Firmata.setPinState(motors[motorNum].pinB, valueB);
+}
+
 void FirmataMotor::setSpeed(byte motorNum, byte direction, byte speed)
 {
   if (isAttached(motorNum))
   {
     if (direction)
     {
-     SoftPWMSet(motors[motorNum].pinA, speed << 1);
-     SoftPWMSet(motors[motorNum].pinB, 0);
+      _setPins(motorNum, speed << 1, 0);
     } else {
-     SoftPWMSet(motors[motorNum].pinA, 0);
-     SoftPWMSet(motors[motorNum].pinB, speed << 1);
+      _setPins(motorNum, 0, speed << 1);
     }
   }
 }
@@ -105,8 +109,7 @@ void FirmataMotor::brake(byte motorNum)
 {
   if (isAttached(motorNum))
   {
-    SoftPWMSet(motors[motorNum].pinA, 0);
-    SoftPWMSet(motors[motorNum].pinB, 0);
+    _setPins(motorNum, 0, 0);
   }
 }
 
