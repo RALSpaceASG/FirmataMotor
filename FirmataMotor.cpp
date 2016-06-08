@@ -109,7 +109,7 @@ void FirmataMotor::brake(byte motorNum)
 {
   if (isAttached(motorNum))
   {
-    _setPins(motorNum, 0, 0);
+    _setPins(motorNum, 255, 255);
   }
 }
 
