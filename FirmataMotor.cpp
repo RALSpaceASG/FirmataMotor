@@ -33,7 +33,7 @@ void FirmataMotor::_setPins(byte motorNum, byte valueA, byte valueB)
   Firmata.setPinState(motors[motorNum].pinB, valueB);
 }
 
-void FirmataMotor::attachMotor(byte motorNum, byte pinB, byte pinA)
+void FirmataMotor::attachMotor(byte motorNum, byte pinA, byte pinB)
 {
   if (isAttached(motorNum))
   {
