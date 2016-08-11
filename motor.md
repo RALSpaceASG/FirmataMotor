@@ -23,7 +23,7 @@ Query :
 ```c
  /* -----------------------------------------------------
  * 0 START_SYSEX                (0xF0)
- * 1 MOTOR_DATA                 (0x61)
+ * 1 MOTOR_DATA                 (0x0F)
  * 2 MOTOR_ATTACH               (0x00)
  * 3 motor #                    ([0 - MAX_MOTORS-1])
  * 4 pin A #                    (first pin)
@@ -39,7 +39,7 @@ Query
 ```c
  /* -----------------------------------------------------
  * 0 START_SYSEX                (0xF0)
- * 1 MOTOR_DATA                 (0x61)
+ * 1 MOTOR_DATA                 (0x0F)
  * 2 MOTOR_SPEED                (0x01)
  * 3 Motor #  &  DIRECTION      [= (direction << 6) | (#)]
  * 4 speed, 7-bits              (0-127)
@@ -67,7 +67,7 @@ Query
 ```c
  /* -----------------------------------------------------
  * 0 START_SYSEX                (0xF0)
- * 1 MOTOR_DATA                 (0x61)
+ * 1 MOTOR_DATA                 (0x0F)
  * 2 MOTOR_SPEEDS               (0x02)
  * 3 first motor # & first motor direction
  * 4 first motor speed
@@ -85,7 +85,7 @@ Query
 ```c
  /* -----------------------------------------------------
  * 0 START_SYSEX                (0xF0)
- * 1 MOTOR_DATA                 (0x61)
+ * 1 MOTOR_DATA                 (0x0F)
  * 2 MOTOR_BRAKE                (0x03)
  * 3 motor #                    ([0 - MAX_MOTORS-1])
  * 4 END_SYSEX                  (0xF7)
@@ -100,7 +100,7 @@ Query
 ```c
  /* -----------------------------------------------------
  * 0 START_SYSEX                (0xF0)
- * 1 MOTOR_DATA                 (0x61)
+ * 1 MOTOR_DATA                 (0x0F)
  * 2 MOTOR_DETACH               (0x05)
  * 3 motor #                    ([0 - MAX_MOTORS-1])
  * 4 END_SYSEX                  (0xF7)
